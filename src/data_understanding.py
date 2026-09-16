@@ -129,7 +129,6 @@ def main():
         f.write("\n".join(lines))
 
     print(f"\nDone. 2 images saved to {FIG_DIR}/, rationale saved to results/rationale.txt")
-c
 
 if __name__ == "__main__":
     main()

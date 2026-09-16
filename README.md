@@ -185,20 +185,24 @@ python src/visualize.py           # step 5: draw model-result graphs -> results/
 
 ## The graphs, and what to look for in each one
 
-Running `visualize.py` produces six images in `results/figures/`. Here's
+Running `visualize.py` produces seven images in `results/figures/`. Here's
 what each one shows and why it's there.
 
-**1. Data cleaning, before vs. after.** Five histograms, side by side, raw
-data on the left and cleaned data on the right. Look at `skin_thickness`
-and `insulin` especially: the left side has a huge spike at zero (the
-disguised missing values), and the right side doesn't, because those zeros
-were converted to a proper "missing" and filled in with a reasonable
-estimate. This is the clearest way to see that the cleaning step actually
-did something, rather than just taking our word for it.
+**1. Missing values before cleaning.** A compact bar chart showing how many
+impossible zero values each affected measurement had before cleaning.
+`insulin` and `skin_thickness` stand out immediately, which explains why
+the cleaning step matters so much.
+
+![Missing values before cleaning](results/figures/missing_values_before_cleaning.png)
+
+**2. Data cleaning, before vs. after.** Histograms for the most affected
+columns, raw data on the left and cleaned data on the right. The huge zero
+spikes disappear because those values were converted to proper missing
+values and then filled with reasonable estimates.
 
 ![Before and after cleaning](results/figures/before_after_cleaning.png)
 
-**2. Correlation heatmap.** A grid showing how strongly every pair of
+**3. Correlation heatmap.** A grid showing how strongly every pair of
 measurements relates to each other, colored from blue (no relationship) to
 red or dark blue at the extremes (strong relationship). Look at the
 `diabetes` row/column specifically: `glucose` stands out as the strongest
@@ -206,14 +210,6 @@ single relationship with the outcome, which is the same thing the model
 later confirms independently.
 
 ![Correlation heatmap](results/figures/correlation_heatmap.png)
-
-**3. Class balance.** A simple bar chart of how many patients in the raw
-data have diabetes versus don't. Useful context before looking at any model
-result: about a third of patients are positive, so a model that just
-guessed "no diabetes" every time would still be right roughly two-thirds of
-the time. This is why we check more than plain accuracy.
-
-![Class balance](results/figures/class_balance.png)
 
 **4. ROC curve, the "before vs. after prediction" picture.** This is the
 closest thing to literally watching the model work. The dashed diagonal
@@ -233,7 +229,14 @@ precision/recall numbers in the results table.
 
 ![Confusion matrices](results/figures/confusion_matrices.png)
 
-**6. Feature importance.** Two bar charts, one per model, showing which
+**6. Threshold trade-off.** The same model can be made more cautious or more
+sensitive by changing the probability cutoff. Lowering the cutoff catches
+more true diabetes cases (higher recall), but it also creates more false
+alarms (lower precision). This matters for a screening-style use case.
+
+![Threshold tradeoff](results/figures/threshold_tradeoff.png)
+
+**7. Feature importance.** Two bar charts, one per model, showing which
 measurements each one leaned on most heavily. Worth comparing the two side
 by side: if both models independently rank the same measurements at the
 top, that's a real pattern in the data, not an artifact of one particular

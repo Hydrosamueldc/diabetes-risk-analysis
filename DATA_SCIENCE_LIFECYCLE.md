@@ -90,17 +90,17 @@ on load, so no type-correction was needed.
 
 **Feature engineering.** No new features were manufactured, but the
 missing-value pattern itself was checked for informativeness: `insulin`
-and `skin_thickness` have the highest missingness, worth knowing about
-even though we ultimately used simple imputation rather than a
-missingness-flag approach for this project (unlike the readmission
-project, where flags for missingness were tested and found to make little
-difference; see that project's lifecycle document, stage 3).
+and `skin_thickness` have the highest missingness. The project keeps
+simple missingness flags for those two columns (`insulin_missing` and
+`skin_thickness_missing`) so the model can learn whether the fact that a
+test was missing carries any signal.
 
-**Visual proof the cleaning worked**, `src/visualize.py` produces
-`results/figures/before_after_cleaning.png`, showing each affected
-column's distribution before (disguised zeros included) and after
-(cleaned and imputed). The zero-spike disappears visibly for `insulin` and
-`skin_thickness` in particular.
+**Visual proof the cleaning worked.** `src/visualize.py` produces
+`results/figures/missing_values_before_cleaning.png` to show how large the
+disguised-missing problem is, and
+`results/figures/before_after_cleaning.png` to show the distributions
+before and after cleaning. The zero-spike disappears visibly for `insulin`
+and `skin_thickness` in particular.
 
 ## 4. Exploratory Data Analysis (EDA)
 
@@ -144,7 +144,7 @@ deliberately for comparison rather than to chase the single best score:
 **Training and tuning.** Data was split 75/25 into training and test sets,
 stratified to preserve the 34.9% positive rate in both. Numeric features
 were median-imputed then standardized; the Random Forest was deliberately
-kept shallow (`max_depth=6`, `min_samples_leaf=20`) to avoid overfitting
+kept shallow (`max_depth=5`, `min_samples_leaf=10`) to avoid overfitting
 noise given the small sample size, a conscious trade-off favoring a fair
 comparison over squeezing out maximum training-set performance.
 
@@ -180,8 +180,13 @@ learned something real.
 - `feature_importance.png`: side-by-side ranking from both models, used to
   confirm agreement on what matters rather than trusting one model's
   opinion alone.
-- `correlation_heatmap.png` and `class_balance.png`: earlier-stage context
-  carried through into the final report.
+- `missing_values_before_cleaning.png`: makes the missing-data problem
+  visible before any modeling happens.
+- `threshold_tradeoff.png`: shows how lowering the decision threshold
+  increases recall while reducing precision, which is central to a
+  screening-style use case.
+- `correlation_heatmap.png`: earlier-stage context carried through into
+  the final report.
 
 **Translating for a non-technical reader.** All of the above is written up
 in plain language, with every statistical and medical term explained on
@@ -195,7 +200,8 @@ generated results, and this document) is version-controlled with git and
 structured for GitHub: a plain README for practical use, this document for
 the full formal record, and clearly separated `src/` and `data/` folders.
 
-**Reproducibility.** `requirements.txt` pins every dependency. The full
+**Reproducibility.** `requirements.txt` records every required dependency.
+The full
 pipeline runs end to end with five commands (see `README.md`, "How to run
 this yourself"), each writing its output to `results/` so a fresh clone
 can be verified without needing to trust the numbers on faith.

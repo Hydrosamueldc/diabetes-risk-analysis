@@ -144,6 +144,9 @@ than one extra unnecessary follow-up test).
 
 ## Project structure
 
+The formal lifecycle is available as both `DATA_SCIENCE_LIFECYCLE.md` and
+`notebooks/data_science_lifecycle.ipynb`.
+
 ```
 .
 ├── data/

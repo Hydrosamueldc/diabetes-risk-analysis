@@ -1,5 +1,7 @@
 # Diabetes Risk Analysis
 
+**Author:** Adegboyega Samuel
+
 This project uses real medical data to build a computer program that guesses
 whether someone has diabetes, based on simple health measurements a doctor
 might take (like weight, age, and a blood sugar reading). No medical or

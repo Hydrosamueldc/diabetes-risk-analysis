@@ -3,10 +3,8 @@
 **Author:** Adegboyega Samuel
 
 This project uses real medical data to build a computer program that guesses
-whether someone has diabetes, based on simple health measurements a doctor
-might take (like weight, age, and a blood sugar reading). No medical or
-programming background is assumed anywhere in this document, every term is
-explained the first time it's used.
+whether someone has diabetes, based on routine health measurements a doctor
+might take, such as weight, age, and blood sugar.
 
 ## What is diabetes, briefly?
 
@@ -17,9 +15,9 @@ sick, is valuable. That's the point of this project: could we predict who's
 likely to have diabetes using only a handful of routine measurements, without
 needing an expensive or slow lab test?
 
-## What this project actually does, in plain terms
+## What this project actually does
 
-1. Takes a spreadsheet of 768 real patients, each with 8 simple measurements.
+1. Takes a spreadsheet of 768 real patients, each with 8 health measurements.
 2. Cleans up some messy/missing data (explained below, real-world data is
    never perfectly tidy).
 3. Looks for patterns: which measurements tend to be different between
@@ -39,7 +37,7 @@ that group of patients and shouldn't be assumed to apply to anyone else.**
 A model trained on one population doesn't automatically work for a different
 one.
 
-| Column name | What it means in plain language | Anything to know |
+| Column name | Meaning | Anything to know |
 |---|---|---|
 | `pregnancies` | How many times the patient has been pregnant | |
 | `glucose` | Blood sugar level, measured a specific way (after drinking a sugary liquid and waiting 2 hours, this is a standard diabetes test) | Turned out to be the single most useful measurement for predicting diabetes |
@@ -74,7 +72,7 @@ all turns out to be a useful clue on its own.
 ## Data understanding: does each measurement actually relate to diabetes?
 
 Before building any model, it's worth looking directly at how each
-measurement relates to the outcome, and stating plainly why that
+measurement relates to the outcome, and stating why that
 measurement is a reasonable thing to use for prediction in the first
 place. Both graphs below come from `src/data_understanding.py`.
 
@@ -116,7 +114,7 @@ We build two different prediction programs and compare them:
 1. **Logistic Regression**, think of this as the program adding up "points"
    for each measurement (more points for things linked to diabetes, fewer or
    negative points for things linked to not having it), then deciding
-   "diabetes" or "no diabetes" based on the total. It's simple and easy to
+   "diabetes" or "no diabetes" based on the total. It is easier to
    explain: you can literally see how much weight each measurement gets.
 2. **Random Forest**, this one is more like asking a large committee of
    simple yes/no questions ("Is glucose above X? Is age above Y?") many times
@@ -227,8 +225,8 @@ two models perform similarly.
 
 **5. Confusion matrices.** For each model, a 2x2 grid showing exactly how
 many test patients were correctly identified, incorrectly flagged as
-diabetic when they weren't, or missed when they were. This is the plain,
-literal "how many did it get right and wrong" picture behind the
+diabetic when they weren't, or missed when they were. This is the direct
+"how many did it get right and wrong" picture behind the
 precision/recall numbers in the results table.
 
 ![Confusion matrices](results/figures/confusion_matrices.png)
@@ -263,7 +261,7 @@ pattern in the data rather than a fluke of one particular method.
 
 Neither program catches every diabetes case, at best, around half of actual
 cases are correctly flagged. That's not a failure of the code; it reflects a
-genuine limit of what 8 simple measurements can tell you. A real screening
+genuine limit of what 8 routine measurements can tell you. A real screening
 tool would need to decide how cautious to be (see the precision/recall
 trade-off above) and would need testing on a much larger, more varied group
 of patients before being trusted in practice.
@@ -296,7 +294,7 @@ what that would responsibly look like in practice:
   patient populations change. A model like this should be re-evaluated
   against current data, not treated as a one-time build.
 
-## Limitations, stated plainly
+## Limitations
 
 - Only 768 patients, not a huge amount of data, so the exact numbers above
   could shift somewhat with a different sample of patients.

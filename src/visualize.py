@@ -237,10 +237,6 @@ def main():
     print("Plotting feature importance...")
     plot_feature_importance(log_reg, rf)
 
-    stale_class_balance = FIG_DIR / "class_balance.png"
-    if stale_class_balance.exists():
-        stale_class_balance.unlink()
-
     print(f"\nDone. 7 images saved to {FIG_DIR}/")
 
 
